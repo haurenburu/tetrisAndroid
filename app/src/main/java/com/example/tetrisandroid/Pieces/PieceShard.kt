@@ -1,9 +1,9 @@
 package com.example.tetrisandroid.Pieces
 
 open class PieceShard(var x: Int, var y: Int) {
-    fun moveDown() { y++ }
+    fun moveDown() { x++ }
 
-    fun moveRight() { x++ }
+    fun moveRight() { y++ }
 
-    fun moveLeft() { x-- }
+    fun moveLeft() { y-- }
 }
