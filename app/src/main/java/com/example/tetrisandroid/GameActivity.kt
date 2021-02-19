@@ -5,18 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import com.example.tetrisandroid.Pieces.PieceShard
 import com.example.tetrisandroid.databinding.ActivityGameBinding
-import com.example.tetrisandroid.databinding.ActivityMainBinding
-import java.lang.reflect.Array
+import com.example.tetrisandroid.pieces.*
 
 class GameActivity : AppCompatActivity() {
-    val LINE = 36
-    val COL = 26
-    var running = true
-    var speed: Long = 300
+    private val LINE = 36
+    private val COL = 26
+    private var running = true
+    private var speed: Long = 300
 
-    var piece = PieceShard(15, 15)
+    var piece = PieceS(15, 15)
 
     var board = Array(LINE) {
         Array(COL){0}
@@ -61,7 +59,10 @@ class GameActivity : AppCompatActivity() {
 
                     piece.moveDown()
                     try {
-                        boardView[piece.x][piece.y]!!.setImageResource(R.drawable.white)
+                        boardView[piece.shard1.x][piece.shard1.y]!!.setImageResource(R.drawable.white)
+                        boardView[piece.shard2.x][piece.shard2.y]!!.setImageResource(R.drawable.white)
+                        boardView[piece.shard3.x][piece.shard3.y]!!.setImageResource(R.drawable.white)
+                        boardView[piece.shard4.x][piece.shard4.y]!!.setImageResource(R.drawable.white)
                     } catch (e:ArrayIndexOutOfBoundsException) {
                         running = false
                     }
