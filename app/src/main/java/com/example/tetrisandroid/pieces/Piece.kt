@@ -1,4 +1,4 @@
-package com.example.tetrisandroid.Pieces
+package com.example.tetrisandroid.pieces
 
 abstract class Piece(var x: Int, var y: Int){
     abstract var shard1: PieceShard

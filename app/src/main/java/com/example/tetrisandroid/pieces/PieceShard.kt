@@ -1,4 +1,4 @@
-package com.example.tetrisandroid.Pieces
+package com.example.tetrisandroid.pieces
 
 open class PieceShard(var x: Int, var y: Int) {
     fun moveDown() { x++ }
