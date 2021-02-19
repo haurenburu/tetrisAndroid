@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">tetrisAndroid</string>
+    <string name="newgame">New Game</string>
+    <string name="settings">Settings</string>
 </resources>
