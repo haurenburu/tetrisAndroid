@@ -34,8 +34,6 @@ class GameActivity : AppCompatActivity() {
 
         Toast.makeText(this, dif, Toast.LENGTH_SHORT).show()
 
-
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game)
         binding.gameGrid.rowCount = LINE
         binding.gameGrid.columnCount = COL
@@ -47,6 +45,41 @@ class GameActivity : AppCompatActivity() {
                 boardView[i][j] = inflater.inflate(R.layout.inflate_image_view, binding.gameGrid, false) as ImageView
                 binding.gameGrid.addView(boardView[i][j])
             }
+        }
+
+        binding.ButtonPause.setOnClickListener {
+            if (running){
+                running = false
+            } else {
+                running = true;
+                gameRun()
+            }
+
+        }
+
+        binding.ButtonLeft.setOnClickListener {
+            if (
+                piece.shard1.y == 0 ||
+                piece.shard2.y == 0 ||
+                piece.shard3.y == 0 ||
+                piece.shard4.y == 0
+            ) {
+                return@setOnClickListener
+            }
+
+            piece.moveLeft()
+        }
+
+        binding.ButtonRight.setOnClickListener {
+            if (
+                piece.shard1.y + 1 == COL ||
+                piece.shard2.y + 1 == COL ||
+                piece.shard3.y + 1 == COL ||
+                piece.shard4.y + 1 == COL
+            ) {
+                return@setOnClickListener
+            }
+            piece.moveRight()
         }
 
         gameRun()
@@ -63,7 +96,16 @@ class GameActivity : AppCompatActivity() {
                         }
                     }
 
-                    piece.moveDown()
+                    if (
+                        piece.shard1.x + 1 != LINE &&
+                        piece.shard2.x + 1 != LINE &&
+                        piece.shard3.x + 1 != LINE &&
+                        piece.shard4.x + 1 != LINE
+                    ) {
+                        piece.moveDown()
+                    }
+
+
                     try {
                         boardView[piece.shard1.x][piece.shard1.y]!!.setImageResource(R.drawable.white)
                         boardView[piece.shard2.x][piece.shard2.y]!!.setImageResource(R.drawable.white)
