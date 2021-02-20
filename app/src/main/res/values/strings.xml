@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">tetrisAndroid</string>
-    <string name="newGame">New Game</string>
-    <string name="settings">Settings</string>
+    <string name="app_name">TETRIS</string>
+    <string name="newGame">NEW GAME</string>
+    <string name="settings">SETTINGS</string>
     <string name="left">LEFT</string>
     <string name="right">RIGHT</string>
-    <string name="easy">Easy</string>
-    <string name="hard">Hard</string>
-    <string name="normal">Normal</string>
-    <string name="save">Save</string>
-    <string name="pause">Pause</string>
+    <string name="easy">EASY</string>
+    <string name="hard">HARD</string>
+    <string name="normal">NORMAL</string>
+    <string name="save">SAVE</string>
+    <string name="pause">PAUSE</string>
 </resources>
