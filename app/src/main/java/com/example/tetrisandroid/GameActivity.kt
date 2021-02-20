@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.tetrisandroid.databinding.ActivityGameBinding
 import com.example.tetrisandroid.pieces.*
@@ -28,7 +29,12 @@ class GameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
+        val settings = getSharedPreferences("prefs", MODE_PRIVATE)
+        val dif = settings.getString("difficulty", "normal")
+
+        Toast.makeText(this, dif, Toast.LENGTH_SHORT).show()
+
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game)
         binding.gameGrid.rowCount = LINE

@@ -17,5 +17,10 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }
+
+        binding.buttonConfig.setOnClickListener {
+            var intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
