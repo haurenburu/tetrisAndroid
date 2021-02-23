@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.tetrisandroid.databinding.ActivityGameBinding
 import com.example.tetrisandroid.pieces.*
-import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
     private val LINE = 36
@@ -16,40 +15,45 @@ class GameActivity : AppCompatActivity() {
     private var running = true
     private var speed: Long = 300
 
-    var piece: Piece = randPiece()
+    lateinit var binding: ActivityGameBinding
+    lateinit var viewmodel: GameViewModel
 
-    var board = Array(LINE) {
-        Array(COL){0}
-    }
+    var piece: Piece = randPiece()
 
     var boardView = Array(LINE) {
         arrayOfNulls<ImageView>(COL)
     }
 
-    lateinit var binding: ActivityGameBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val settings = getSharedPreferences("prefs", MODE_PRIVATE)
-        val dif = settings.getString("difficulty", "normal")
-
-        Toast.makeText(this, dif, Toast.LENGTH_SHORT).show()
+        when (settings.getString("difficulty", "normal")) {
+            "easy" -> speed = 500
+            "normal" -> speed = 300
+            "hard" -> speed = 100
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game)
+        viewmodel = ViewModelProvider(this).get(GameViewModel::class.java)
+
         binding.gameGrid.rowCount = LINE
         binding.gameGrid.columnCount = COL
 
         val inflater = LayoutInflater.from(this)
 
-        for(i in 0 until LINE) {
-            for(j in 0 until COL) {
-                boardView[i][j] = inflater.inflate(R.layout.inflate_image_view, binding.gameGrid, false) as ImageView
+        for (i in 0 until LINE) {
+            for (j in 0 until COL) {
+                boardView[i][j] = inflater.inflate(
+                    R.layout.inflate_image_view,
+                    binding.gameGrid,
+                    false
+                ) as ImageView
                 binding.gameGrid.addView(boardView[i][j])
             }
         }
 
         binding.ButtonPause.setOnClickListener {
-            if (running){
+            if (running) {
                 running = false
             } else {
                 running = true;
@@ -59,16 +63,15 @@ class GameActivity : AppCompatActivity() {
         }
 
         binding.ButtonLeft.setOnClickListener {
-            if (
+            if (!running ||
                 piece.shard1.y == 0 ||
                 piece.shard2.y == 0 ||
                 piece.shard3.y == 0 ||
                 piece.shard4.y == 0 ||
-
-                board[piece.shard1.x][piece.shard1.y - 1] == 1 ||
-                board[piece.shard2.x][piece.shard2.y - 1] == 1 ||
-                board[piece.shard3.x][piece.shard3.y - 1] == 1 ||
-                board[piece.shard4.x][piece.shard4.y - 1] == 1
+                viewmodel.board[piece.shard1.x][piece.shard1.y - 1] == 1 ||
+                viewmodel.board[piece.shard2.x][piece.shard2.y - 1] == 1 ||
+                viewmodel.board[piece.shard3.x][piece.shard3.y - 1] == 1 ||
+                viewmodel.board[piece.shard4.x][piece.shard4.y - 1] == 1
             ) {
                 return@setOnClickListener
             }
@@ -77,19 +80,19 @@ class GameActivity : AppCompatActivity() {
         }
 
         binding.ButtonRight.setOnClickListener {
-            if (
+            if (!running ||
                 piece.shard1.y + 1 == COL ||
                 piece.shard2.y + 1 == COL ||
                 piece.shard3.y + 1 == COL ||
                 piece.shard4.y + 1 == COL ||
-
-                board[piece.shard1.x][piece.shard1.y + 1] == 1 ||
-                board[piece.shard2.x][piece.shard2.y + 1] == 1 ||
-                board[piece.shard3.x][piece.shard3.y + 1] == 1 ||
-                board[piece.shard4.x][piece.shard4.y + 1] == 1
+                viewmodel.board[piece.shard1.x][piece.shard1.y + 1] == 1 ||
+                viewmodel.board[piece.shard2.x][piece.shard2.y + 1] == 1 ||
+                viewmodel.board[piece.shard3.x][piece.shard3.y + 1] == 1 ||
+                viewmodel.board[piece.shard4.x][piece.shard4.y + 1] == 1
             ) {
                 return@setOnClickListener
             }
+
             piece.moveRight()
         }
 
@@ -103,7 +106,7 @@ class GameActivity : AppCompatActivity() {
                 runOnUiThread {
                     for (i in 0 until LINE) {
                         for (j in 0 until COL) {
-                            if (board[i][j] == 1) {
+                            if (viewmodel.board[i][j] == 1) {
                                 boardView[i][j]!!.setImageResource(R.drawable.white)
                             } else {
                                 boardView[i][j]!!.setImageResource(R.drawable.black)
@@ -117,17 +120,17 @@ class GameActivity : AppCompatActivity() {
                         piece.shard3.x + 1 != LINE &&
                         piece.shard4.x + 1 != LINE &&
 
-                        board[piece.shard1.x + 1][piece.shard1.y] == 0 &&
-                        board[piece.shard2.x + 1][piece.shard2.y] == 0 &&
-                        board[piece.shard3.x + 1][piece.shard3.y] == 0 &&
-                        board[piece.shard4.x + 1][piece.shard4.y] == 0
+                        viewmodel.board[piece.shard1.x + 1][piece.shard1.y] == 0 &&
+                        viewmodel.board[piece.shard2.x + 1][piece.shard2.y] == 0 &&
+                        viewmodel.board[piece.shard3.x + 1][piece.shard3.y] == 0 &&
+                        viewmodel.board[piece.shard4.x + 1][piece.shard4.y] == 0
                     ) {
                         piece.moveDown()
                     } else {
-                        board[piece.shard1.x][piece.shard1.y] = 1
-                        board[piece.shard2.x][piece.shard2.y] = 1
-                        board[piece.shard3.x][piece.shard3.y] = 1
-                        board[piece.shard4.x][piece.shard4.y] = 1
+                        viewmodel.board[piece.shard1.x][piece.shard1.y] = 1
+                        viewmodel.board[piece.shard2.x][piece.shard2.y] = 1
+                        viewmodel.board[piece.shard3.x][piece.shard3.y] = 1
+                        viewmodel.board[piece.shard4.x][piece.shard4.y] = 1
 
                         piece = randPiece()
 
@@ -138,7 +141,7 @@ class GameActivity : AppCompatActivity() {
                         boardView[piece.shard2.x][piece.shard2.y]!!.setImageResource(R.drawable.white)
                         boardView[piece.shard3.x][piece.shard3.y]!!.setImageResource(R.drawable.white)
                         boardView[piece.shard4.x][piece.shard4.y]!!.setImageResource(R.drawable.white)
-                    } catch (e:ArrayIndexOutOfBoundsException) {
+                    } catch (e: ArrayIndexOutOfBoundsException) {
                         running = false
                     }
                 }
@@ -147,16 +150,19 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
-        return when((1..7).random()) {
-            1 -> PieceI(5,15)
-            2 -> PieceJ(5,15)
-            3 -> PieceL(5,15)
-            4 -> PieceO(5,15)
-            5 -> PieceS(5,15)
-            6 -> PieceT(5,15)
-            else -> PieceZ(5,15)
+        return when ((1..7).random()) {
+            1 -> PieceI(5, 15)
+            2 -> PieceJ(5, 15)
+            3 -> PieceL(5, 15)
+            4 -> PieceO(5, 15)
+            5 -> PieceS(5, 15)
+            6 -> PieceT(5, 15)
+            else -> PieceZ(5, 15)
         }
+    }
 
-
+    override fun onStop() {
+        running = false;
+        super.onStop()
     }
 }
