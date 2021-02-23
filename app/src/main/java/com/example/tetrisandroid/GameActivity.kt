@@ -63,7 +63,12 @@ class GameActivity : AppCompatActivity() {
                 piece.shard1.y == 0 ||
                 piece.shard2.y == 0 ||
                 piece.shard3.y == 0 ||
-                piece.shard4.y == 0
+                piece.shard4.y == 0 ||
+
+                board[piece.shard1.x][piece.shard1.y - 1] == 1 ||
+                board[piece.shard2.x][piece.shard2.y - 1] == 1 ||
+                board[piece.shard3.x][piece.shard3.y - 1] == 1 ||
+                board[piece.shard4.x][piece.shard4.y - 1] == 1
             ) {
                 return@setOnClickListener
             }
@@ -76,7 +81,12 @@ class GameActivity : AppCompatActivity() {
                 piece.shard1.y + 1 == COL ||
                 piece.shard2.y + 1 == COL ||
                 piece.shard3.y + 1 == COL ||
-                piece.shard4.y + 1 == COL
+                piece.shard4.y + 1 == COL ||
+
+                board[piece.shard1.x][piece.shard1.y + 1] == 1 ||
+                board[piece.shard2.x][piece.shard2.y + 1] == 1 ||
+                board[piece.shard3.x][piece.shard3.y + 1] == 1 ||
+                board[piece.shard4.x][piece.shard4.y + 1] == 1
             ) {
                 return@setOnClickListener
             }
@@ -105,7 +115,12 @@ class GameActivity : AppCompatActivity() {
                         piece.shard1.x + 1 != LINE &&
                         piece.shard2.x + 1 != LINE &&
                         piece.shard3.x + 1 != LINE &&
-                        piece.shard4.x + 1 != LINE
+                        piece.shard4.x + 1 != LINE &&
+
+                        board[piece.shard1.x + 1][piece.shard1.y] == 0 &&
+                        board[piece.shard2.x + 1][piece.shard2.y] == 0 &&
+                        board[piece.shard3.x + 1][piece.shard3.y] == 0 &&
+                        board[piece.shard4.x + 1][piece.shard4.y] == 0
                     ) {
                         piece.moveDown()
                     } else {
