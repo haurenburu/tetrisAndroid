@@ -10,4 +10,5 @@
     <string name="hard">DIFICIL</string>
     <string name="save">SALVAR</string>
     <string name="pause">PAUSAR</string>
+    <string name="points">"PONTOS: "</string>
 </resources>
