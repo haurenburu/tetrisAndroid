@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.tetrisandroid.databinding.ActivityGameBinding
@@ -11,7 +12,7 @@ import com.example.tetrisandroid.pieces.*
 
 class GameActivity : AppCompatActivity() {
     private val LINE = 36
-    private val COL = 26
+    private val COL = 6
     private var running = true
     private var speed: Long = 300
 
@@ -114,26 +115,10 @@ class GameActivity : AppCompatActivity() {
                         }
                     }
 
-                    if (
-                        piece.shard1.x + 1 != LINE &&
-                        piece.shard2.x + 1 != LINE &&
-                        piece.shard3.x + 1 != LINE &&
-                        piece.shard4.x + 1 != LINE &&
-
-                        viewmodel.board[piece.shard1.x + 1][piece.shard1.y] == 0 &&
-                        viewmodel.board[piece.shard2.x + 1][piece.shard2.y] == 0 &&
-                        viewmodel.board[piece.shard3.x + 1][piece.shard3.y] == 0 &&
-                        viewmodel.board[piece.shard4.x + 1][piece.shard4.y] == 0
-                    ) {
+                    if (canMoveDown()) {
                         piece.moveDown()
                     } else {
-                        viewmodel.board[piece.shard1.x][piece.shard1.y] = 1
-                        viewmodel.board[piece.shard2.x][piece.shard2.y] = 1
-                        viewmodel.board[piece.shard3.x][piece.shard3.y] = 1
-                        viewmodel.board[piece.shard4.x][piece.shard4.y] = 1
-
-                        piece = randPiece()
-
+                        checkPoints()
                     }
 
                     try {
@@ -150,6 +135,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
+        return PieceO(5, 1)
         return when ((1..7).random()) {
             1 -> PieceI(5, 15)
             2 -> PieceJ(5, 15)
@@ -164,5 +150,37 @@ class GameActivity : AppCompatActivity() {
     override fun onStop() {
         running = false;
         super.onStop()
+    }
+
+    private fun checkPoints() {
+        viewmodel.board[piece.shard1.x][piece.shard1.y] = 1
+        viewmodel.board[piece.shard2.x][piece.shard2.y] = 1
+        viewmodel.board[piece.shard3.x][piece.shard3.y] = 1
+        viewmodel.board[piece.shard4.x][piece.shard4.y] = 1
+
+        for(i in 0 until LINE) {
+            if (viewmodel.board[i].sum() == COL) {
+                viewmodel.points += 50
+                binding.textViewPointsValue.text = viewmodel.points.toString()
+
+                for (j in i downTo 1) {
+                    viewmodel.board[j] = viewmodel.board[j-1]
+                }
+            }
+        }
+        piece = randPiece()
+    }
+
+    private fun canMoveDown(): Boolean {
+        return (
+                piece.shard1.x + 1 != LINE &&
+                        piece.shard2.x + 1 != LINE &&
+                        piece.shard3.x + 1 != LINE &&
+                        piece.shard4.x + 1 != LINE &&
+                        viewmodel.board[piece.shard1.x + 1][piece.shard1.y] == 0 &&
+                        viewmodel.board[piece.shard2.x + 1][piece.shard2.y] == 0 &&
+                        viewmodel.board[piece.shard3.x + 1][piece.shard3.y] == 0 &&
+                        viewmodel.board[piece.shard4.x + 1][piece.shard4.y] == 0
+                )
     }
 }
