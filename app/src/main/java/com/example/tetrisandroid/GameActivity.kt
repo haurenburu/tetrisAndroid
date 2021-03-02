@@ -60,7 +60,6 @@ class GameActivity : AppCompatActivity() {
                 running = true;
                 gameRun()
             }
-
         }
 
         binding.ButtonLeft.setOnClickListener {
@@ -78,6 +77,10 @@ class GameActivity : AppCompatActivity() {
             }
 
             piece.moveLeft()
+        }
+
+        binding.ButtonFlip.setOnClickListener {
+            piece.flip()
         }
 
         binding.ButtonRight.setOnClickListener {
@@ -135,7 +138,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
-        return PieceO(5, 1)
+        return PieceL(5, 2)
         return when ((1..7).random()) {
             1 -> PieceI(5, 15)
             2 -> PieceJ(5, 15)
