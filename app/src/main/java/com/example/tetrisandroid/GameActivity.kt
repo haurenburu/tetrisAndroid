@@ -12,7 +12,7 @@ import com.example.tetrisandroid.pieces.*
 
 class GameActivity : AppCompatActivity() {
     private val LINE = 36
-    private val COL = 6
+    private val COL = 20
     private var running = true
     private var speed: Long = 300
 
@@ -138,7 +138,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
-        return PieceL(5, 2)
+        return PieceI(5, 10)
         return when ((1..7).random()) {
             1 -> PieceI(5, 15)
             2 -> PieceJ(5, 15)

@@ -9,54 +9,55 @@ class PieceL (x: Int,y: Int) : Piece(x, y){
     override fun flip() {
         super.flip()
 
-        if (state == 1) {
-            shard1.x = shard3.x - 1
-            shard1.y = shard3.y
+        when (state) {
+            1 -> {
+                shard1.x = shard3.x - 1
+                shard1.y = shard3.y
 
-            shard2.x = shard3.x + 1
-            shard2.y = shard3.y
+                shard2.x = shard3.x + 1
+                shard2.y = shard3.y
 
-            shard4.x = shard3.x + 1
-            shard4.y = shard3.y + 1
+                shard4.x = shard3.x + 1
+                shard4.y = shard3.y + 1
 
-            state++
-        }
+                state++
+            }
+            2 -> {
+                shard1.x = shard3.x
+                shard1.y = shard3.y - 1
 
-        else if (state == 2) {
-            shard1.x = shard3.x
-            shard1.y = shard3.y - 1
+                shard2.x = shard3.x + 1
+                shard2.y = shard3.y - 1
 
-            shard2.x = shard3.x + 1
-            shard2.y = shard3.y - 1
+                shard4.x = shard3.x
+                shard4.y = shard3.y + 1
 
-            shard4.x = shard3.x
-            shard4.y = shard3.y + 1
+                state++
 
-            state++
+            }
+            3 -> {
+                shard1.x = shard3.x
+                shard1.y = shard3.y - 1
 
-        }
-        else if (state == 3) {
-            shard1.x = shard3.x
-            shard1.y = shard3.y - 1
+                shard2.x = shard3.x + 1
+                shard2.y = shard3.y
 
-            shard2.x = shard3.x + 1
-            shard2.y = shard3.y
+                shard4.x = shard3.x + 2
+                shard4.y = shard3.y
 
-            shard4.x = shard3.x + 2
-            shard4.y = shard3.y
+                state++
+            }
+            else -> {
+                shard1.x = shard3.x
+                shard1.y = shard3.y -1
 
-            state++
-        }
-        else {
-            shard1.x = shard3.x
-            shard1.y = shard3.y -1
+                shard2.x = shard3.x -1
+                shard2.y = shard3.y +1
 
-            shard2.x = shard3.x -1
-            shard2.y = shard3.y +1
-
-            shard4.x = shard3.x
-            shard4.y = shard3.y +1
-            state = 1
+                shard4.x = shard3.x
+                shard4.y = shard3.y +1
+                state = 1
+            }
         }
 
     }

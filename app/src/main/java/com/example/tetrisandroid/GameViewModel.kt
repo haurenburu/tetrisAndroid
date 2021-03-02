@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class GameViewModel : ViewModel() {
     // TODO: config
     val LINE = 36
-    val COL = 6
+    val COL = 20
 
     var points = 0
     var board = Array(LINE) {
