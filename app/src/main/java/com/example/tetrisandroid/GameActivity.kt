@@ -12,7 +12,7 @@ import com.example.tetrisandroid.pieces.*
 
 class GameActivity : AppCompatActivity() {
     private val LINE = 36
-    private val COL = 6
+    private val COL = 20
     private var running = true
     private var speed: Long = 300
 
@@ -60,7 +60,6 @@ class GameActivity : AppCompatActivity() {
                 running = true;
                 gameRun()
             }
-
         }
 
         binding.ButtonLeft.setOnClickListener {
@@ -78,6 +77,10 @@ class GameActivity : AppCompatActivity() {
             }
 
             piece.moveLeft()
+        }
+
+        binding.ButtonFlip.setOnClickListener {
+            piece.flip()
         }
 
         binding.ButtonRight.setOnClickListener {
@@ -135,7 +138,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
-        return PieceO(5, 1)
+//        return PieceI(5, 10)
         return when ((1..7).random()) {
             1 -> PieceI(5, 15)
             2 -> PieceJ(5, 15)
