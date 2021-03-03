@@ -138,7 +138,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
-        return PieceI(5, 10)
+//        return PieceI(5, 10)
         return when ((1..7).random()) {
             1 -> PieceI(5, 15)
             2 -> PieceJ(5, 15)
