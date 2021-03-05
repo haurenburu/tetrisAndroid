@@ -11,4 +11,6 @@
     <string name="pause">PAUSE</string>
     <string name="points">"POINTS: "</string>
     <string name="flip">FLIP</string>
+    <string name="_0" translatable="false">0</string>
+    <string name="pointsGO">Points:</string>
 </resources>

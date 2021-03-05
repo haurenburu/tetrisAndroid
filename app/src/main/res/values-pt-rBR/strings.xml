@@ -11,4 +11,6 @@
     <string name="save">SALVAR</string>
     <string name="pause">PAUSAR</string>
     <string name="points">"PONTOS: "</string>
+    <string name="flip">GIRAR</string>
+    <string name="pointsGO">PONTOS</string>
 </resources>

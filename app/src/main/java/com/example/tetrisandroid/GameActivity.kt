@@ -1,5 +1,6 @@
 package com.example.tetrisandroid
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -138,15 +139,14 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun randPiece(): Piece {
-//        return PieceI(5, 10)
         return when ((1..7).random()) {
-            1 -> PieceI(5, 15)
-            2 -> PieceJ(5, 15)
-            3 -> PieceL(5, 15)
-            4 -> PieceO(5, 15)
-            5 -> PieceS(5, 15)
-            6 -> PieceT(5, 15)
-            else -> PieceZ(5, 15)
+            1 -> PieceI(2, 5)
+            2 -> PieceJ(2, 5)
+            3 -> PieceL(2, 5)
+            4 -> PieceO(2, 5)
+            5 -> PieceS(2, 5)
+            6 -> PieceT(2, 5)
+            else -> PieceZ(2, 15)
         }
     }
 
@@ -172,6 +172,14 @@ class GameActivity : AppCompatActivity() {
             }
         }
         piece = randPiece()
+
+        if(viewmodel.board[2].contains(1)) {
+            running = false
+            var intent = Intent(this, GameOverActivity::class.java)
+            intent.putExtra("points", viewmodel.points.toString())
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun canMoveDown(): Boolean {
